@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClipsFactory - Authorization</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 80px auto; padding: 0 20px; color: #111; text-align: center; }
+    h1 { font-size: 1.6em; }
+    .code-box { background: #f4f4f4; border: 2px dashed #999; border-radius: 8px; padding: 20px; margin: 30px 0; font-family: monospace; font-size: 1.1em; word-break: break-all; }
+    .ok { color: #1a9c3e; font-weight: bold; }
+    button { background: #fe2c55; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-size: 1em; cursor: pointer; }
+    .hint { color: #666; font-size: 0.9em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>ClipsFactory Authorization</h1>
+  <div id="result">
+    <p>Reading authorization code…</p>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+    const div = document.getElementById("result");
+    if (code) {
+      div.innerHTML =
+        '<p class="ok">✓ Authorization successful</p>' +
+        '<p>Copy this code back into the ClipsFactory app:</p>' +
+        '<div class="code-box" id="code">' + code + '</div>' +
+        '<button onclick="navigator.clipboard.writeText(document.getElementById(\'code\').innerText)">Copy code</button>' +
+        '<p class="hint">You can now return to the ClipsFactory desktop app.</p>';
+    } else if (error) {
+      div.innerHTML = '<p style="color:#c00">Authorization failed: ' + error + '</p>';
+    } else {
+      div.innerHTML = '<p>No authorization code found in the URL.</p>';
+    }
+  </script>
+</body>
+</html>
